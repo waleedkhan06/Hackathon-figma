@@ -48,9 +48,9 @@ const rentalStats = [
 ];
 
 export default function Dashboard() {
-   const [selectedLocation, setSelectedLocation] = useState("Kota Semarang");
+  //  const [selectedLocation, setSelectedLocation] = useState("Kota Semarang");
 
-  const totalRentals = rentalStats.reduce((acc, stat) => acc + stat.count, 0);
+  // const totalRentals = rentalStats.reduce((acc, stat) => acc + stat.count, 0);
 
   const menuItems = [
     { icon: FaHome, label: "Dashboard", isActive: true },
@@ -158,7 +158,7 @@ export default function Dashboard() {
                   <div className="space-y-2">
                     <label className="text-sm text-gray-500">Locations</label>
                     <select className="w-full p-2 rounded-lg border">
-                      <option>{selectedLocation}</option>
+                      {/* <option>{selectedLocation}</option> */}
                     </select>
                   </div>
                   <div className="space-y-2">
@@ -185,7 +185,7 @@ export default function Dashboard() {
                   <div className="space-y-2">
                     <label className="text-sm text-gray-500">Locations</label>
                     <select className="w-full p-2 rounded-lg border">
-                      <option>{selectedLocation}</option>
+                      {/* <option>{selectedLocation}</option> */}
                     </select>
                   </div>
                   <div className="space-y-2">
