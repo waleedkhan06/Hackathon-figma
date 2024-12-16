@@ -1,5 +1,5 @@
-"use client"
- import { useState } from "react";
+// "use client"
+//  import { useState } from "react";
 import Image from "next/image";
 import { FaHome, FaCar, FaRegChartBar, FaSyncAlt, FaInbox, FaCalendarAlt, FaCog, FaRegQuestionCircle, FaSignOutAlt, FaEllipsisV } from 'react-icons/fa';
 

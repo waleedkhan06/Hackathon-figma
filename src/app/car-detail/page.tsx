@@ -235,7 +235,7 @@ const CarRentalPage = () => {
                 </button>
               </div>
               <p className="mt-6 text-gray-600">
-                NISMO has become the embodiment of Nissan's outstanding performance, inspired by the most unforgiving proving ground, the race track.
+                NISMO has become the embodiment of Nissans outstanding performance, inspired by the most unforgiving proving ground, the race track.
               </p>
               <div className="mt-8 grid grid-cols-3 gap-4 text-sm">
                 <div>
