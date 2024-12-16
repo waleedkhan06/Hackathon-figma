@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { FiHeart, FiUsers } from "react-icons/fi"
+import { FiHeart, } from "react-icons/fi"
 import { BsFuelPump, BsGearWide } from "react-icons/bs"
 import { AiOutlineSwap } from "react-icons/ai"
 import { HiOutlineUsers } from "react-icons/hi"

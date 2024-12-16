@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+// import { useState } from "react"
 import Image from "next/image"
 import { FiHeart } from "react-icons/fi"
 
@@ -89,7 +89,7 @@ const reviews = [
     role: "CEO at Bukalapak",
     review: "We are very happy with the service from the MORENT App. MORENT has a low price and also a large variety of cars with good and comfortable facilities. In addition, the service provided by the officers is also very friendly and very polite.",
     date: "21 July 2022",
-    avatar: "/avatars/alex.png",
+    avatar: "/profil2.png",
     rating: 4
   },
   {
@@ -97,13 +97,13 @@ const reviews = [
     role: "CEO at Amazon",
     review: "We are greatly helped by the services of the MORENT Application. Morent has low prices and also a wide variety of cars with good and comfortable facilities. In addition, the service provided by the officers is also very friendly and very polite.",
     date: "20 July 2022",
-    avatar: "/avatars/skylar.png",
+    avatar: "/profil.png",
     rating: 4
   },
 ]
 
 const CarRentalPage = () => {
-  const [showAllReviews, setShowAllReviews] = useState(false)
+  // const [showAllReviews, setShowAllReviews] = useState(false)
 
   return (
     <div className="flex min-h-screen bg-[#F6F7F9]">
@@ -300,7 +300,7 @@ const CarRentalPage = () => {
             ))}
             <button 
               className="text-blue-600 text-sm"
-              onClick={() => setShowAllReviews(true)}
+              // onClick={() => setShowAllReviews(true)}
             >
               Show All
             </button>
@@ -422,4 +422,3 @@ const CarRentalPage = () => {
 }
 
 export default CarRentalPage
-

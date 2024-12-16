@@ -31,8 +31,7 @@ export default {
         // 2X Large devices (very large desktops, 1536px and up)
         '2xl': '1536px',
         
-        // Additional custom breakpoints if needed
-        '3xl': '1920px'
+        
       }
     },
   },

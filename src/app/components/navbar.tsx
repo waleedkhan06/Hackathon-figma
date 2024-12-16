@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { FiHeart, FiBell, FiSettings } from 'react-icons/fi'
+import Image from 'next/image' 
 
 export function Header() {
   return (
@@ -49,14 +50,17 @@ export function Header() {
             <FiSettings className="h-6 w-6" />
           </button>
           <Link href="/dashboard">
-      <div className="w-12 h-12 rounded-full bg-gray-200 cursor-pointer">
-        <img
-          src="/Profil.png" 
-          alt="Description" 
-          className="w-full h-full object-cover rounded-full"
-        />
-      </div>
-    </Link>
+            <div className="w-12 h-12 rounded-full bg-gray-200 cursor-pointer">
+           
+              <Image
+                src="/Profil.png"
+                alt="Profile Image"
+                width={48} 
+                height={48} 
+                className="w-full h-full object-cover rounded-full"
+              />
+            </div>
+          </Link>
         </div>
       </div>
     </header>
