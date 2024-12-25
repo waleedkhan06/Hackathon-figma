@@ -372,7 +372,7 @@ export default function Dashboard() {
               <div className="space-y-4">
                 {recentTransactions.map((transaction) => (
                   <div key={transaction.id} className="flex items-center gap-4">
-                    <div className="w-16 h-12 relative bg-[#3563E9] rounded-lg p-2">
+                    <div className="w-16 h-12 relative bg-white rounded-lg p-2">
                       <Image
                         src={transaction.image}
                         alt={transaction.name}

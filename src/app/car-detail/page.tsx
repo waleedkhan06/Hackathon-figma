@@ -119,7 +119,7 @@ export default function CarDetail() {
       name: 'Nissan GT - R',
       type: 'Sport',
       price: 80.00,
-      image: '/nissan.png  ',
+      image: '/nissan.png',
       specs: { fuel: '80L', transmission: 'Manual', capacity: '2 People' }
     },
     {
