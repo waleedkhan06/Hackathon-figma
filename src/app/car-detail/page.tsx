@@ -213,7 +213,7 @@ export default function CarDetail() {
 
   return (
     <div className="flex min-h-screen bg-[#F6F7F9]">
-      {/* Mobile Toggle Button */}
+      
       <button
         onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
         className="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-md"
@@ -222,7 +222,7 @@ export default function CarDetail() {
         <FiMenu className="w-6 h-6 text-[#3563E9]" />
       </button>
 
-      {/* Sidebar - Always visible on desktop, toggleable on mobile */}
+      
       <aside 
         className={`
           fixed lg:sticky top-0 left-0 h-screen
@@ -513,7 +513,7 @@ export default function CarDetail() {
         </div>
       </main>
 
-      {/* Mobile Overlay */}
+    
       {isMobileSidebarOpen && (
         <div 
           className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
