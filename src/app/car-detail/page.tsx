@@ -111,7 +111,7 @@ export default function CarDetail() {
       name: 'Koenigsegg',
       type: 'Sport',
       price: 99.00,
-      image: '/koenigsegg.png ',
+      image: '/koenigsegg.png',
       specs: { fuel: '90L', transmission: 'Manual', capacity: '2 People' }
     },
     {
@@ -119,7 +119,7 @@ export default function CarDetail() {
       name: 'Nissan GT - R',
       type: 'Sport',
       price: 80.00,
-      image: '/nissan-gtr.png  ',
+      image: '/nissan.png  ',
       specs: { fuel: '80L', transmission: 'Manual', capacity: '2 People' }
     },
     {

@@ -30,7 +30,7 @@ export function Header() {
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-200 cursor-pointer md:hidden">
             <Link href="/dashboard">
               <Image
-                src="/profil.png" 
+                src="/Profil.png" 
                 alt="Profile Image"
                 width={48}
                 height={48}
@@ -80,7 +80,7 @@ export function Header() {
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-200 cursor-pointer">
             <Link href="/dashboard">
               <Image
-                src="/profil.png" 
+                src="/Profil.png" 
                 alt="Profile Image"
                 width={48}
                 height={48}

@@ -15,7 +15,7 @@ const recentTransactions = [
     type: "Sport Car",
     date: "20 July",
     price: 80.00,
-    image: "/car2.png"
+    image: "/nissan.png"
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const recentTransactions = [
     type: "Sport Car",
     date: "19 July",
     price: 99.00,
-    image: "/car1.png"
+    image: "/Koenigsegg.png"
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const recentTransactions = [
     type: "Sport Car",
     date: "18 July",
     price: 96.00,
-    image: "/car3.png"
+    image: "/ROLLS.png"
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const recentTransactions = [
     type: "SUV",
     date: "17 July",
     price: 80.00,
-    image: "/car5.png"
+    image: "/crv.png"
   }
 ]
 
