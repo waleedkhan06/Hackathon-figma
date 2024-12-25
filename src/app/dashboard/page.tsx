@@ -23,7 +23,7 @@ const recentTransactions = [
     type: "Sport Car",
     date: "19 July",
     price: 99.00,
-    image: "/Koenigsegg.png"
+    image: "/koenigsegg.png"
   },
   {
     id: 3,
@@ -196,7 +196,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-4 mb-6">
               <div className="bg-[#3563E9] rounded-xl p-2 w-20 h-20 relative">
                 <Image
-                  src="/car2.png"
+                  src="/nissan-gtr.png"
                   alt="Nissan GT-R"
                   fill
                   className="object-contain"
