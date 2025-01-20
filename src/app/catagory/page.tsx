@@ -298,9 +298,12 @@ export default function CarRental() {
       className="flex justify-center items-center"
     >
       <Image
-  src="/Switch.png"
-  alt="Swap Icon"
-  className="h-60px w-60px sm:h-64px sm:w-64px md:top-0 md:transform-none -top-10"
+  
+  src="/Switch.png" 
+  alt="Swap Icon" 
+  width={60} 
+  height={60} 
+  className="sm:w-[64px] sm:h-[64px] md:top-0 md:transform-none -top-10"
 />
     </a>
   </div>
