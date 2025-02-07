@@ -13,102 +13,14 @@ import type { Car } from "../../../types/car"
 import { urlFor } from "@/sanity/lib/client"
 import { useUser } from "@clerk/nextjs"
 import ReactPaginate from "react-paginate"
-import type React from "react" // Import React
 import Toast from "../components/Toast"
 
-interface CarCardProps {
+interface CarDetailClientProps {
   car: Car
-  isFavorite: boolean
-  onToggleFavoriteAction: (id: string) => void
 }
 
-interface Review {
-  id: string
-  name: string
-  role?: string
-  company?: string
-  date: string
-  rating: number
-  comment: string
-  avatar?: string
-}
-
-export function CarCard({ car, isFavorite, onToggleFavoriteAction }: CarCardProps) {
-  return (
-    <motion.div
-      className="bg-white dark:bg-gray-800 p-4 rounded-2xl"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <Link href={`/car/${car.slug?.current || car._id}`} className="group">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-              {car.name}
-            </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors">
-              {car.brand}
-            </p>
-          </Link>
-        </div>
-        <button
-          onClick={() => onToggleFavoriteAction(car._id)}
-          className={`${isFavorite ? "text-red-500" : "text-[#90A3BF] dark:text-gray-400"} hover:text-red-500 transition-colors`}
-          aria-label={`Add ${car.name} to favorites`}
-        >
-          <FiHeart className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`} />
-        </button>
-      </div>
-
-      <div className="relative h-[200px] w-full rounded-lg overflow-hidden">
-        <Image
-          src={car.image ? urlFor(car.image).url() : "/placeholder.svg"}
-          alt={car.name}
-          fill
-          className="object-contain"
-        />
-      </div>
-
-      <div className="flex justify-between mt-4 mb-4">
-        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-          <BsFuelPump className="w-4 h-4 dark: text-blue-500" />
-          <span className="text-sm"> {car.fuelCapacity}</span>
-        </div>
-        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-          <BsGearWide className="w-4 h-4 dark: text-blue-500" />
-          <span className="text-sm">{car.transmission}</span>
-        </div>
-        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-          <HiOutlineUsers className="w-4 h-4 dark: text-blue-500" />
-          <span className="text-sm">{car.seatingCapacity}</span>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
-        <div>
-          <p className="text-lg font-bold text-gray-900 dark:text-white">
-            {car.pricePerDay}
-            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/day</span>
-          </p>
-          {car.originalPrice && (
-            <p className="text-sm text-[#90A3BF] dark:text-gray-500 line-through">{car.originalPrice}</p>
-          )}
-        </div>
-        <Link
-          href={`/book-a-ride/${car.slug?.current || car._id}`}
-          className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-        >
-          Rent Now
-        </Link>
-      </div>
-    </motion.div>
-  )
-}
-
-export default function CarDetail({ car }: { car: Car }) {
+export default function CarDetailClient({ car }: CarDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0)
-  // const [isFavorite, setIsFavorite] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
   const [recentCars, setRecentCars] = useState<Car[]>([])
   const [reviews, setReviews] = useState<Review[]>([])
@@ -126,7 +38,6 @@ export default function CarDetail({ car }: { car: Car }) {
   const pageCount = Math.ceil(recentCars.length / carsPerPage)
 
   useEffect(() => {
-    // Fetch all cars
     const fetchAllCars = async () => {
       const query = `*[_type == "car"] | order(_createdAt desc)`
       const cars = await client.fetch(query)
@@ -134,7 +45,7 @@ export default function CarDetail({ car }: { car: Car }) {
     }
 
     fetchAllCars()
-    // Fetch reviews
+
     const fetchReviews = async () => {
       const mockReviews: Review[] = [
         {
@@ -173,14 +84,11 @@ export default function CarDetail({ car }: { car: Car }) {
     }
   }, [])
 
-  
-
   const toggleFavorite = (carId: string) => {
     setFavorites((prev) => {
       const newFavorites = prev.includes(carId) ? prev.filter((id) => id !== carId) : [...prev, carId]
       localStorage.setItem("favorites", JSON.stringify(newFavorites))
 
-      // Show toast message
       const targetCar = carId === car._id ? car : recentCars.find((c) => c._id === carId)
       if (targetCar) {
         const message = newFavorites.includes(carId)
@@ -277,14 +185,14 @@ export default function CarDetail({ car }: { car: Car }) {
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-blue-300">{car.name}</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{car.name}</h2>
                   <div className="flex items-center gap-1 mt-1">
                     {Array(5)
                       .fill(null)
                       .map((_, i) => (
                         <FaStar
                           key={i}
-                          className={`w-4 h-4 ${i < 4 ? "text-yellow-400" : "text-gray-300 dark:text-gray-400"}`}
+                          className={`w-4 h-4 ${i < 4 ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"}`}
                         />
                       ))}
                     <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">440+ Reviewer</span>
@@ -292,11 +200,15 @@ export default function CarDetail({ car }: { car: Car }) {
                 </div>
                 <button
                   onClick={() => toggleFavorite(car._id)}
-                  className={`p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors ${
-                    favorites.includes(car._id) ? "text-red-500" : "text-gray-400 dark:text-gray-300"
-                  }`}
+                  className="relative group p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                 >
-                  <FiHeart className={`w-6 h-6 ${favorites.includes(car._id) ? "fill-current" : ""}`} />
+                  <FiHeart
+                    className={`w-6 h-6 transition-colors ${
+                      favorites.includes(car._id)
+                        ? "text-red-500 fill-current"
+                        : "text-[#90A3BF] dark:text-gray-300 group-hover:text-red-500"
+                    }`}
+                  />
                 </button>
               </div>
 
@@ -320,7 +232,7 @@ export default function CarDetail({ car }: { car: Car }) {
                   )}
                 </div>
                 <Link
-                  href={`/book-a-ride/${car.slug?.current || car._id}`}
+                  href={`/car-payment/${car.slug?.current || car._id}`}
                   className="bg-blue-600 text-white px-8 py-3 rounded-[4px] hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 transition-colors"
                 >
                   Rent Now
@@ -438,13 +350,7 @@ export default function CarDetail({ car }: { car: Car }) {
                 <textarea
                   id="comment"
                   value={newReview.comment}
-                  onChange={(e) => {
-                    const words = e.target.value.split(/\s+/) // Split by spaces
-                    if (words.length <= 50) {
-                      // Set word limit (Change this number as needed)
-                      setNewReview({ ...newReview, comment: e.target.value })
-                    }
-                  }}
+                  onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
                   rows={4}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   required
@@ -460,7 +366,7 @@ export default function CarDetail({ car }: { car: Car }) {
             </form>
           </motion.div>
 
-          {/* Recent Car Section */}
+          {/* Recent Cars Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -508,11 +414,100 @@ export default function CarDetail({ car }: { car: Car }) {
               activeLinkClassName={"bg-blue-600 text-white"}
             />
           </motion.div>
-
-          
         </div>
         {toast.visible && <Toast message={toast.message} />}
       </main>
     </div>
   )
 }
+
+interface Review {
+  id: string
+  name: string
+  role?: string
+  company?: string
+  date: string
+  rating: number
+  comment: string
+  avatar?: string
+}
+
+interface CarCardProps {
+  car: Car
+  isFavorite: boolean
+  onToggleFavorite: (id: string) => void
+}
+
+function CarCard({ car, isFavorite, onToggleFavorite }: CarCardProps) {
+  return (
+    <motion.div
+      className="bg-white dark:bg-gray-800 p-4 rounded-2xl"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <Link href={`/car/${car.slug?.current || car._id}`} className="group">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              {car.name}
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors">
+              {car.brand}
+            </p>
+          </Link>
+        </div>
+        <button
+          onClick={() => onToggleFavorite(car._id)}
+          className={`${isFavorite ? "text-red-500" : "text-[#90A3BF] dark:text-gray-400"} hover:text-red-500 transition-colors`}
+          aria-label={`Add ${car.name} to favorites`}
+        >
+          <FiHeart className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`} />
+        </button>
+      </div>
+
+      <div className="relative h-[200px] w-full rounded-lg overflow-hidden">
+        <Image
+          src={car.image ? urlFor(car.image).url() : "/placeholder.svg"}
+          alt={car.name}
+          fill
+          className="object-contain"
+        />
+      </div>
+
+      <div className="flex justify-between mt-4 mb-4">
+        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+          <BsFuelPump className="w-4 h-4 dark: text-blue-500" />
+          <span className="text-sm"> {car.fuelCapacity}</span>
+        </div>
+        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+          <BsGearWide className="w-4 h-4 dark: text-blue-500" />
+          <span className="text-sm">{car.transmission}</span>
+        </div>
+        <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+          <HiOutlineUsers className="w-4 h-4 dark: text-blue-500" />
+          <span className="text-sm">{car.seatingCapacity}</span>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
+        <div>
+          <p className="text-lg font-bold text-gray-900 dark:text-white">
+            {car.pricePerDay}
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/day</span>
+          </p>
+          {car.originalPrice && (
+            <p className="text-sm text-[#90A3BF] dark:text-gray-500 line-through">{car.originalPrice}</p>
+          )}
+        </div>
+        <Link
+          href={`/car-payment/${car.slug?.current || car._id}`}
+          className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        >
+          Rent Now
+        </Link>
+      </div>
+    </motion.div>
+  )
+}
+

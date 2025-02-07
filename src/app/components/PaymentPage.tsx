@@ -1,6 +1,5 @@
 "use client"
 
-import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -9,8 +8,13 @@ import { FaStar, FaCreditCard, FaPaypal, FaBitcoin } from "react-icons/fa"
 import type { Car } from "../../../types/car"
 import { useUser } from "@clerk/nextjs"
 import Swal from "sweetalert2"
+import type React from "react" // Added import for React
 
-export default function PaymentPage({ car }: { car: Car }) {
+interface PaymentPageClientProps {
+  car: Car
+}
+
+export default function PaymentPageClient({ car }: PaymentPageClientProps) {
   const router = useRouter()
   const { user, isSignedIn, isLoaded } = useUser()
   const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal" | "bitcoin">("card")
@@ -57,9 +61,8 @@ export default function PaymentPage({ car }: { car: Car }) {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  // Check form completion whenever formData or paymentMethod changes
   useEffect(() => {
-    const isComplete = Object.values(formData).every(value => value !== "") && paymentMethod !== ""
+    const isComplete = Object.values(formData).every((value) => value !== "") && paymentMethod !== ""
     setFormComplete(isComplete)
   }, [formData, paymentMethod])
 
@@ -83,9 +86,9 @@ export default function PaymentPage({ car }: { car: Car }) {
         body: JSON.stringify({
           ...formData,
           carId: car._id,
+          carName: car.name,
           totalPrice: totalPrice,
           status: "Pending",
-          createdAt: new Date().toISOString(),
         }),
       })
 
@@ -96,7 +99,7 @@ export default function PaymentPage({ car }: { car: Car }) {
           icon: "success",
           confirmButtonText: "OK",
         }).then(() => {
-          // router.push("/notifications")
+          router.push("/notifications")
         })
       } else {
         throw new Error("Failed to create order")
@@ -385,19 +388,18 @@ export default function PaymentPage({ car }: { car: Car }) {
                 </label>
 
                 <button
-  className={`w-full ${
-    formComplete ? "bg-[#3563E9] hover:bg-[#274abc]" : "bg-gray-400 cursor-not-allowed"
-  } text-white px-5 py-3 rounded-lg font-semibold transition-colors duration-300`}
-  onClick={() => {
-    if (formComplete) {
-      handleRentNow();
-    }
-  }}
-  disabled={!formComplete}
->
-  Rent Now
-</button>
-
+                  className={`w-full ${
+                    formComplete ? "bg-[#3563E9] hover:bg-[#274abc]" : "bg-gray-400 cursor-not-allowed"
+                  } text-white px-5 py-3 rounded-lg font-semibold transition-colors duration-300`}
+                  onClick={() => {
+                    if (formComplete) {
+                      handleRentNow()
+                    }
+                  }}
+                  disabled={!formComplete}
+                >
+                  Rent Now
+                </button>
               </div>
             </motion.div>
           </div>
@@ -465,3 +467,4 @@ export default function PaymentPage({ car }: { car: Car }) {
     </motion.div>
   )
 }
+
