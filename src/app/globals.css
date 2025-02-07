@@ -2,20 +2,149 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer utilities {
+  .aspect-video {
+    aspect-ratio: 16/9;
+  }
+  
+  .max-w-7xl {
+    max-width: 1280px;
+  }
+}
+@layer components {
+  .shadow-sm {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .dark .shadow-sm {
+    box-shadow: 0 1px 3px rgba(255,255,255,0.1);
+  }
+}
+
+/* Feature Cards */
+.feature-card {
+  @apply flex flex-col items-center p-4 border border-[#EEEFF2] rounded-lg text-center transition-all duration-200;
+  background: white;
+}
+
+.feature-card:hover {
+  @apply border-[#3563E9] shadow-sm;
+}
+
+.dark .feature-card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.dark .feature-card:hover {
+  @apply border-blue-400 shadow-lg;
+}
+
+/* Toast Component Dark Mode */
+.dark .Toast {
+  @apply bg-gray-800 border-gray-700 text-white;
+}
+
+/* Form Input Transitions */
+input, button, .feature-card {
+  @apply transition-all duration-200 ease-in-out;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.translate-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.goog-te-banner-frame {
+  display: none !important; /* Hide the Google Translate banner */
+}
+
+.goog-te-gadget {
+  color: transparent !important; /* Hide the default text */
+}
+
+.goog-te-gadget img {
+  display: none; /* Hide the default Google logo */
+}
+
+.goog-te-menu-value {
+  color: #000 !important; /* Change the text color */
+  font-size: 14px !important;
 }
