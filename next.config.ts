@@ -16,10 +16,6 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
-
-  experimental: {
-    serverComponentsExternalPackages: ["@xenova/transformers"], // Ensure correct syntax
-  },
 };
 
 export default nextConfig;
