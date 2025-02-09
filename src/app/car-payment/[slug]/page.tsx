@@ -6,6 +6,10 @@ import PaymentPageClient from "../../components/PaymentPage";
 
 async function getCarBySlug(slug: string): Promise<Car | null> {
   try {
+    if (!slug) {
+      throw new Error("Slug is undefined");
+    }
+
     const car = await client.fetch<Car | null>(getCarBySlugQuery, { slug });
     return car;
   } catch (error) {
@@ -15,11 +19,16 @@ async function getCarBySlug(slug: string): Promise<Car | null> {
 }
 
 interface PageProps {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: { slug: string }; // Ensure params contains slug as a string
+  searchParams?: Record<string, string | string[] | undefined>;
 }
 
 export default async function PaymentPage({ params }: PageProps) {
+  if (!params?.slug || typeof params.slug !== "string") {
+    console.error("Invalid slug:", params?.slug);
+    notFound();
+  }
+
   const car = await getCarBySlug(params.slug);
 
   if (!car) {
