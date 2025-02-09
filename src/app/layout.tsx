@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Footer } from "./components/footer";
-import { Header } from "./components/header";
+// import { Header } from "./components/header";
 import { ThemeProvider } from "../../contexts/ThemeContext";
 import { LanguageProvider } from "../../contexts/LanguageContext";
 import { WishlistProvider } from "../../contexts/WishlistContext"; 
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ThemeProvider>
             <LanguageProvider>
               <WishlistProvider> {/* Wrap children with WishlistProvider */}
-                <Header />
+                {/* <Header /> */}
                 <main>{children}</main>
                 <Footer />
               </WishlistProvider>
