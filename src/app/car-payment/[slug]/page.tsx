@@ -6,8 +6,8 @@ import PaymentPageClient from "../../components/PaymentPage";
 
 async function getCarBySlug(slug: string): Promise<Car | null> {
   try {
-    if (!slug) {
-      throw new Error("Slug is undefined");
+    if (!slug || typeof slug !== "string") {
+      throw new Error("Invalid slug provided");
     }
 
     const car = await client.fetch<Car | null>(getCarBySlugQuery, { slug });
@@ -18,8 +18,9 @@ async function getCarBySlug(slug: string): Promise<Car | null> {
   }
 }
 
+// ✅ Make `params` optional in PageProps
 interface PageProps {
-  params: { slug: string }; // Ensure params contains slug as a string
+  params?: { slug: string }; // <-- Make `params` optional
   searchParams?: Record<string, string | string[] | undefined>;
 }
 
@@ -27,13 +28,20 @@ export default async function PaymentPage({ params }: PageProps) {
   if (!params?.slug || typeof params.slug !== "string") {
     console.error("Invalid slug:", params?.slug);
     notFound();
+    return null;
   }
 
   const car = await getCarBySlug(params.slug);
 
   if (!car) {
     notFound();
+    return null;
   }
 
   return <PaymentPageClient car={car} />;
+}
+
+// ✅ Define `generateStaticParams` (Prevents TypeScript errors in Next.js)
+export async function generateStaticParams() {
+  return [];
 }
