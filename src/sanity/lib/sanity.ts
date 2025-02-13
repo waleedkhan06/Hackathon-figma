@@ -45,8 +45,7 @@ export const getCarBySlugQuery = `*[_type == "car" && slug.current == $slug][0] 
   pricePerDay,
   originalPrice,
   tags,
-  image
+  image,
+  description
 }`
-
-
 

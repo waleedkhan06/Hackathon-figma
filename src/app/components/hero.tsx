@@ -8,14 +8,59 @@ import { BsFuelPump, BsGearWide } from "react-icons/bs"
 import { HiOutlineUsers } from "react-icons/hi"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { motion } from "framer-motion"
-import { client } from "@/sanity/lib/client"
-import { allCarsQuery } from "@/sanity/lib/queries"
-import type { Car } from "../../../types/car"
-import Toast from "../components/Toast"
-// import { urlForImage } from "@/sanity/lib/image";
+import { createClient } from "next-sanity"
+import imageUrlBuilder from "@sanity/image-url"
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types"
 
 import "swiper/css"
 
+// Sanity client setup
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  apiVersion: "2023-05-03",
+  useCdn: false,
+})
+
+const builder = imageUrlBuilder(client)
+
+function urlFor(source: SanityImageSource) {
+  return builder.image(source)
+}
+
+// Sanity query
+const allCarsQuery = `*[_type == "car"] {
+  _id,
+  name,
+  "slug": slug.current,
+  brand,
+  type,
+  fuelCapacity,
+  transmission,
+  seatingCapacity,
+  pricePerDay,
+  originalPrice,
+  tags,
+  image
+}`
+
+// Types
+interface Car {
+  _id: string
+  name: string
+  slug: string
+  brand: string
+  type: string
+  fuelCapacity: string
+  transmission: string
+  seatingCapacity: string
+  pricePerDay: string
+  originalPrice?: string
+  tags: string[]
+  image: SanityImageSource
+}
+
+// Animation variants
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -30,15 +75,12 @@ const staggerChildren = {
   },
 }
 
+// CarCard component
 function CarCard({
   car,
   isFavorite,
   onToggleFavorite,
-}: {
-  car: Car
-  isFavorite: boolean
-  onToggleFavorite: (id: string) => void
-}) {
+}: { car: Car; isFavorite: boolean; onToggleFavorite: (id: string) => void }) {
   return (
     <motion.div className="bg-white dark:bg-gray-800 p-4 rounded-2xl" variants={fadeInUp}>
       <div className="flex justify-between items-start mb-4">
@@ -62,25 +104,20 @@ function CarCard({
       </div>
 
       <div className="relative h-[120px] mx-[-8px]">
-      {/* <Image
-  src={urlForImage(car.image)}
-  alt={car.name}
-  fill
-  className="object-contain"
-/> */}
+        <Image src={urlFor(car.image).url() || "/placeholder.svg"} alt={car.name} fill className="object-contain" />
       </div>
 
       <div className="flex justify-between mt-4 mb-4">
         <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-          <BsFuelPump className="w-4 h-4 dark: text-blue-500" />
+          <BsFuelPump className="w-4 h-4 dark:text-blue-500" />
           <span className="text-sm">{car.fuelCapacity}</span>
         </div>
         <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-          <BsGearWide className="w-4 h-4 dark: text-blue-500" />
+          <BsGearWide className="w-4 h-4 dark:text-blue-500" />
           <span className="text-sm">{car.transmission}</span>
         </div>
         <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-          <HiOutlineUsers className="w-4 h-4 dark: text-blue-500" />
+          <HiOutlineUsers className="w-4 h-4 dark:text-blue-500" />
           <span className="text-sm">{car.seatingCapacity}</span>
         </div>
       </div>
@@ -106,20 +143,29 @@ function CarCard({
   )
 }
 
-export default function CarHero() {
+// Toast component
+function Toast({ message }: { message: string }) {
+  return <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg">{message}</div>
+}
+
+// Main Hero component
+export default function Hero() {
   const [favorites, setFavorites] = useState<string[]>([])
   const [cars, setCars] = useState<Car[]>([])
   const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: "", visible: false })
 
   useEffect(() => {
     const fetchCars = async () => {
-      const fetchedCars = await client.fetch(allCarsQuery)
-      setCars(fetchedCars)
+      try {
+        const fetchedCars = await client.fetch<Car[]>(allCarsQuery)
+        setCars(fetchedCars)
+      } catch (error) {
+        console.error("Error fetching cars:", error)
+      }
     }
 
     fetchCars()
 
-    // Load favorites from localStorage
     const storedFavorites = localStorage.getItem("favorites")
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites))
@@ -129,11 +175,8 @@ export default function CarHero() {
   const toggleFavorite = (carId: string) => {
     setFavorites((prev) => {
       const newFavorites = prev.includes(carId) ? prev.filter((id) => id !== carId) : [...prev, carId]
-
-      // Save favorites to localStorage
       localStorage.setItem("favorites", JSON.stringify(newFavorites))
 
-      // Show toast message
       const car = cars.find((c) => c._id === carId)
       if (car) {
         const message = newFavorites.includes(carId)
@@ -272,8 +315,8 @@ export default function CarHero() {
                 },
               }}
             >
-              {popularCars.slice(0, 5).map((car, index) => (
-                <SwiperSlide key={index}>
+              {popularCars.slice(0, 5).map((car) => (
+                <SwiperSlide key={car._id}>
                   <CarCard car={car} isFavorite={favorites.includes(car._id)} onToggleFavorite={toggleFavorite} />
                 </SwiperSlide>
               ))}
@@ -284,9 +327,9 @@ export default function CarHero() {
             className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6"
             variants={staggerChildren}
           >
-            {popularCars.map((car, index) => (
+            {popularCars.map((car) => (
               <CarCard
-                key={index}
+                key={car._id}
                 car={car}
                 isFavorite={favorites.includes(car._id)}
                 onToggleFavorite={toggleFavorite}
@@ -304,9 +347,9 @@ export default function CarHero() {
             </Link>
           </div>
           <motion.div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6" variants={staggerChildren}>
-            {recommendedCars.map((car, index) => (
+            {recommendedCars.map((car) => (
               <CarCard
-                key={index}
+                key={car._id}
                 car={car}
                 isFavorite={favorites.includes(car._id)}
                 onToggleFavorite={toggleFavorite}
