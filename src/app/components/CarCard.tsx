@@ -5,6 +5,7 @@
 // import { BsFuelPump, BsGearWide } from "react-icons/bs"
 // import { HiOutlineUsers } from "react-icons/hi"
 // import type { Car } from "../../../types/car"
+// import { urlForImage } from "@/sanity/lib/image";
 
 // interface CarCardProps {
 //   car: Car
@@ -54,7 +55,13 @@
 //       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 //         {/* Car Image */}
 //         <div className="relative h-[140px] w-full">
-//           <Image src={car.image || "/placeholder.svg"} alt={car.name} fill className="object-contain" />
+//         <Image
+//     src={urlForImage(car.image)}
+//     alt={car.name}
+//     width={300} // Add width & height to avoid Next.js errors
+//     height={200}
+//     className="object-contain"
+//   />
 //         </div>
 
 //         {/* Car Specifications */}
@@ -95,3 +102,4 @@
 //     </motion.div>
 //   )
 // }
+

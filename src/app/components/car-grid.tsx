@@ -4,6 +4,7 @@
 // import { FaGasPump, FaUsers } from "react-icons/fa"
 // import { FaGear } from "react-icons/fa6"
 // import type { Car } from "../../../types/car"
+// import { urlForImage } from "@/sanity/lib/image";
 
 // interface CarGridProps {
 //   cars: Car[]
@@ -31,7 +32,13 @@
 //           </div>
 
 //           <div className="relative h-40 mb-4">
-//             <Image src={car.image || "/placeholder.svg"} alt={car.name} fill className="object-contain" />
+//           <Image
+//     src={urlForImage(car.image)}
+//     alt={car.name}
+//     width={300} // Add width & height to avoid Next.js errors
+//     height={200}
+//     className="object-contain"
+//   />
 //           </div>
 
 //           <div className="flex justify-between text-sm text-[#90A3BF] mb-4">

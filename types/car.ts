@@ -1,15 +1,5 @@
-import imageUrlBuilder from "@sanity/image-url";
-import { client } from "@/sanity/lib/client"; // Import your Sanity client
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types"
 
-// Initialize the image URL builder
-const builder = imageUrlBuilder(client);
-
-// Function to generate image URLs
-export function urlFor(source: any) {
-  return builder.image(source);
-}
-
-// Define the Sanity image type
 export interface SanityImage {
   _type: "image";
   asset: {
@@ -18,7 +8,6 @@ export interface SanityImage {
   };
 }
 
-// Car Interface with correct image handling
 export interface Car {
   _id: string;
   name: string;
@@ -33,6 +22,7 @@ export interface Car {
   pricePerDay: string;
   originalPrice?: string;
   tags: string[];
-  image: SanityImage; // Corrected image type
+  image: SanityImage; // No longer using SanityImageSource
   description: string;
 }
+

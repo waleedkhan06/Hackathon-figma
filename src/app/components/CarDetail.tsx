@@ -10,10 +10,12 @@
 // import { motion } from "framer-motion"
 // import { client } from "@/sanity/lib/client"
 // import type { Car } from "../../../types/car"
-// import { urlFor } from "@/sanity/lib/client"
+
 // import { useUser } from "@clerk/nextjs"
 // import ReactPaginate from "react-paginate"
 // import Toast from "../components/Toast"
+// import { urlForImage } from "@/sanity/lib/image";
+
 
 // interface CarDetailClientProps {
 //   car: Car
@@ -102,7 +104,11 @@
 //     })
 //   }
 
-//   const carImages = [car.image ? urlFor(car.image).url() : "/placeholder.svg", "/View 2.png", "/View 3.png"]
+//   const carImages = [
+//   car.image ? `/cars/${car.image}` : "/placeholder.svg", // Using public folder images
+//   "/View 2.png",
+//   "/View 3.png",
+// ];
 
 //   const specs = [
 //     { type: "Type Car", value: car.type },
@@ -467,12 +473,13 @@
 //       </div>
 
 //       <div className="relative h-[200px] w-full rounded-lg overflow-hidden">
-//         <Image
-//           src={car.image ? urlFor(car.image).url() : "/placeholder.svg"}
-//           alt={car.name}
-//           fill
-//           className="object-contain"
-//         />
+//       <Image
+//     src={urlForImage(car.image)}
+//     alt={car.name}
+//     width={300} // Add width & height to avoid Next.js errors
+//     height={200}
+//     className="object-contain"
+//   />
 //       </div>
 
 //       <div className="flex justify-between mt-4 mb-4">

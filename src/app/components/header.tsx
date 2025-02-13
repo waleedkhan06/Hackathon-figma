@@ -1,65 +1,76 @@
-// "use client"
+// "use client";
 
-// import { useState, useEffect, useRef } from "react"
-// import Link from "next/link"
-// import Image from "next/image"
-// import { FiSearch, FiHeart, FiBell, FiSettings, FiChevronDown, FiSun, FiMoon, FiGlobe } from "react-icons/fi"
-// import { client } from "@/sanity/lib/client"
-// import { useTheme } from "../../../contexts/ThemeContext"
-// import { useUser, UserButton, SignInButton, SignUpButton } from "@clerk/nextjs"
-// import AOS from "aos"
-// import "aos/dist/aos.css"
-// import type React from "react" // Import React
+// import { useState, useEffect, useRef } from "react";
+// import Link from "next/link";
+// import Image from "next/image";
+// import { FiSearch, FiHeart, FiBell, FiSettings, FiChevronDown, FiSun, FiMoon, FiGlobe } from "react-icons/fi";
+// import { client } from "@/sanity/lib/client";
+// import { useTheme } from "../../../contexts/ThemeContext";
+// import { useUser, UserButton, SignInButton, SignUpButton } from "@clerk/nextjs";
+// import AOS from "aos";
+// import "aos/dist/aos.css";
+// import type React from "react"; // Import React
+// import { IconType } from "react-icons"; // Import IconType
 
 // interface Car {
-//   _id: string
-//   name: string
-//   brand: string
-//   type: string
-//   slug: string
-//   image: string
+//   _id: string;
+//   name: string;
+//   brand: string;
+//   type: string;
+//   slug: string;
+//   image: string;
 // }
 
 // interface MenuItem {
-//   name: string
-//   href?: string
-//   onClick?: () => void
-//   icon?: React.ReactNode
+//   name: string;
+//   href?: string;
+//   onClick?: () => void;
+//   icon?: IconType | React.ReactNode; // Allow IconType or ReactNode
 // }
 
 // declare global {
 //   interface Window {
-//     googleTranslateElementInit: () => void
+//     google: {
+//       translate: {
+//         TranslateElement: {
+//           new (options: any, elementId: string): void;
+//           InlineLayout: {
+//             SIMPLE: string;
+//           };
+//         };
+//       };
+//     };
+//     googleTranslateElementInit: () => void;
 //   }
 // }
 
 // export function Header() {
-//   const [searchQuery, setSearchQuery] = useState("")
-//   const [searchResults, setSearchResults] = useState<Car[]>([])
-//   const [favorites, setFavorites] = useState<string[]>([])
-//   const [showResults, setShowResults] = useState(false)
-//   const [showProfileMenu, setShowProfileMenu] = useState(false)
-//   const searchRef = useRef<HTMLDivElement>(null)
-//   const profileRef = useRef<HTMLDivElement>(null)
-//   const { theme, toggleTheme } = useTheme()
-//   const { user, isSignedIn } = useUser()
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [searchResults, setSearchResults] = useState<Car[]>([]);
+//   const [favorites, setFavorites] = useState<string[]>([]);
+//   const [showResults, setShowResults] = useState(false);
+//   const [showProfileMenu, setShowProfileMenu] = useState(false);
+//   const searchRef = useRef<HTMLDivElement>(null);
+//   const profileRef = useRef<HTMLDivElement>(null);
+//   const { theme, toggleTheme } = useTheme();
+//   const { user, isSignedIn } = useUser();
 
 //   useEffect(() => {
 //     AOS.init({
 //       duration: 800,
 //       once: true,
-//     })
+//     });
 
 //     const handleClickOutside = (event: MouseEvent) => {
 //       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-//         setShowResults(false)
+//         setShowResults(false);
 //       }
 //       if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
-//         setShowProfileMenu(false)
+//         setShowProfileMenu(false);
 //       }
-//     }
+//     };
 
-//     document.addEventListener("mousedown", handleClickOutside)
+//     document.addEventListener("mousedown", handleClickOutside);
 
 //     const googleTranslateElementInit = () => {
 //       new window.google.translate.TranslateElement(
@@ -69,37 +80,37 @@
 //           layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
 //         },
 //         "google_translate_element",
-//       )
-//     }
+//       );
+//     };
 
-//     window.googleTranslateElementInit = googleTranslateElementInit
+//     window.googleTranslateElementInit = googleTranslateElementInit;
 
-//     const script = document.createElement("script")
-//     script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-//     script.async = true
-//     document.body.appendChild(script)
+//     const script = document.createElement("script");
+//     script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+//     script.async = true;
+//     document.body.appendChild(script);
 
 //     return () => {
-//       document.removeEventListener("mousedown", handleClickOutside)
-//       document.body.removeChild(script)
-//     }
-//   }, [])
+//       document.removeEventListener("mousedown", handleClickOutside);
+//       document.body.removeChild(script);
+//     };
+//   }, []);
 
 //   useEffect(() => {
 //     const observer = new MutationObserver(() => {
-//       const googleText = document.querySelector(".goog-te-menu-value span:first-child")
+//       const googleText = document.querySelector(".goog-te-menu-value span:first-child");
 //       if (googleText) {
-//         googleText.innerHTML = "Languages"
+//         googleText.innerHTML = "Languages";
 //       }
-//     })
+//     });
 
 //     observer.observe(document.body, {
 //       childList: true,
 //       subtree: true,
-//     })
+//     });
 
-//     return () => observer.disconnect()
-//   }, [])
+//     return () => observer.disconnect();
+//   }, []);
 
 //   useEffect(() => {
 //     const searchCars = async () => {
@@ -113,25 +124,25 @@
 //             "slug": slug.current,
 //             "image": image.asset->url
 //           }
-//         `)
-//         setSearchResults(results)
-//         setShowResults(true)
+//         `);
+//         setSearchResults(results);
+//         setShowResults(true);
 //       } else {
-//         setSearchResults([])
-//         setShowResults(false)
+//         setSearchResults([]);
+//         setShowResults(false);
 //       }
-//     }
+//     };
 
-//     const debounceTimer = setTimeout(searchCars, 300)
-//     return () => clearTimeout(debounceTimer)
-//   }, [searchQuery])
+//     const debounceTimer = setTimeout(searchCars, 300);
+//     return () => clearTimeout(debounceTimer);
+//   }, [searchQuery]);
 
 //   useEffect(() => {
-//     const storedFavorites = localStorage.getItem("favorites")
+//     const storedFavorites = localStorage.getItem("favorites");
 //     if (storedFavorites) {
-//       setFavorites(JSON.parse(storedFavorites))
+//       setFavorites(JSON.parse(storedFavorites));
 //     }
-//   }, [])
+//   }, []);
 
 //   const menuItems: MenuItem[] = [
 //     { name: "Analytics Dashboard", href: "/loyalty-programs" },
@@ -144,12 +155,12 @@
 //     {
 //       name: `Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`,
 //       onClick: () => {
-//         toggleTheme()
-//         setShowProfileMenu(false)
+//         toggleTheme();
+//         setShowProfileMenu(false);
 //       },
 //       icon: theme === "dark" ? FiSun : FiMoon,
 //     },
-//   ]
+//   ];
 
 //   return (
 //     <header className="bg-white dark:bg-gray-900 py-4 px-4 md:py-6 md:px-16 shadow-sm transition-colors duration-200">
@@ -294,7 +305,11 @@
 //                         onClick={item.onClick}
 //                         className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
 //                       >
-//                         {item.icon && <item.icon className="w-4 h-4" />}
+//                         {item.icon && typeof item.icon === "function" ? (
+//                           <item.icon className="w-4 h-4" />
+//                         ) : (
+//                           item.icon
+//                         )}
 //                         {item.name}
 //                       </button>
 //                     ),
