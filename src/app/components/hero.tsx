@@ -359,8 +359,9 @@ export default function Hero() {
         </motion.section>
       </div>
 
-      {toast.visible && <Toast message={toast.message} />}
+       {toast.visible && <Toast message={toast.message} />}
     </motion.div>
   )
 }
 
+      

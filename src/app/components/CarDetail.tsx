@@ -14,8 +14,7 @@ import type { Car } from "../../../types/car"
 import { useUser } from "@clerk/nextjs"
 import ReactPaginate from "react-paginate"
 import Toast from "../components/Toast"
-// import { urlForImage } from "@/sanity/lib/image";
-
+import { urlFor } from "@/sanity/lib/image"
 
 interface CarDetailClientProps {
   car: Car
@@ -104,11 +103,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
     })
   }
 
-  const carImages = [
-  car.image ? `/cars/${car.image}` : "/placeholder.svg", // Using public folder images
-  "/View 2.png",
-  "/View 3.png",
-];
+  const carImages = [car.image ? urlFor(car.image).url() : "/placeholder.svg", "/View 2.png", "/View 3.png"]
 
   const specs = [
     { type: "Type Car", value: car.type },
@@ -252,7 +247,7 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-[10px] p-6"
+            className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-[10px] p-6 border border-gray-200 dark:border-gray-700"
           >
             <div className="flex items-center gap-2 mb-6">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-blue-300">Reviews</h3>
@@ -315,7 +310,10 @@ export default function CarDetailClient({ car }: CarDetailClientProps) {
             </button>
 
             {/* Review Submission Form */}
-            <form onSubmit={handleSubmitReview} className="mt-8 space-y-4">
+            <form
+              onSubmit={handleSubmitReview}
+              className="mt-8 space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6"
+            >
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Submit Review</h4>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -447,7 +445,7 @@ interface CarCardProps {
 function CarCard({ car, isFavorite, onToggleFavorite }: CarCardProps) {
   return (
     <motion.div
-      className="bg-white dark:bg-gray-800 p-4 rounded-2xl"
+      className="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-200 dark:border-gray-700"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -473,13 +471,12 @@ function CarCard({ car, isFavorite, onToggleFavorite }: CarCardProps) {
       </div>
 
       <div className="relative h-[200px] w-full rounded-lg overflow-hidden">
-      {/* <Image
-    src={urlForImage(car.image)}
-    alt={car.name}
-    width={300} // Add width & height to avoid Next.js errors
-    height={200}
-    className="object-contain"
-  /> */}
+        <Image
+          src={car.image ? urlFor(car.image).url() : "/placeholder.svg"}
+          alt={car.name}
+          fill
+          className="object-contain"
+        />
       </div>
 
       <div className="flex justify-between mt-4 mb-4">
